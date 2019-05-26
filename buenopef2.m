@@ -2,13 +2,13 @@ clear all; close all;
 
 % Parametos
 % emisores
-emi = 0:1:54264; % muchos emisores pa que la cosa sea mas continua
+emi = 0:1:54264; % emisores distribuidos de forma continua
 Ampemi = @(x) x .* (54264 - x) .* (sin(x/5000)+3); % amplitud de la emision
 ampemi = Ampemi(emi);
 Nemi = length(emi);
-L = 763000; % distancia emisores receptores
-lambda = 0.2128;
 
+L = 763000; % distancia emisores y receptores
+lambda = 0.2128;
 
 % Receptores. Comentar y descomentar para el caso N = 8
 Nrec = 64;
@@ -78,9 +78,6 @@ mult(find(mult == 0)) = 1;
 amplitud = amplitud./mult;
 
 %%
-%%%%%%%%%%%%%%
-%figure(1), plot(emi, ampemi), title('amplitud teorica');
-%figure(2), plot(
 rec_xi = 0:1:54264;
 rec_emis = zeros(1,length(rec_xi));
 for i=1:length(rec_xi)
@@ -88,13 +85,11 @@ for i=1:length(rec_xi)
         rec_emis(i) = rec_emis(i) + amplitud(j+nDif)*exp( 1i*k/L*rec_xi(i)*j*drec);
     end
 end
-%figure(3), plot(rec_xi, L*sqrt(abs(rec_emis)));
 salida = L*sqrt(abs(rec_emis));
 
 salida_aver = sqrt(mean(salida.^2));
 entrada_aver = L * sqrt(mean(diag(corr))) / sqrt(length(rec_emis));
 salida = (entrada_aver / salida_aver) * salida;
-%figure(3), plot(rec_xi, L*sqrt(abs(rec_emis)))
 
 figure(6);
 plot(rec_xi, salida, 'b');
@@ -114,7 +109,6 @@ for i = 1:length(salida)
     ext_right = min([length(salida), i+nucleo]);
     salida_correg(i) = sum(salida(ext_left:ext_right)) / (2*nucleo+1);
 end
-%figure(4), plot(rec_xi, salida_correg);
 
 resto = abs(salida_correg - ampemi);
 figure(5);
