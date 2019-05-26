@@ -24,8 +24,7 @@ rec = 0:drec:Drec;
 
 % resolucion que tendremos
 dx = L*lambda/Drec
-% la cosa maxima que podremos ver bien
-cosa_max = (Nrec-1)*dx
+
 
 
 % distancias emisores-receptores
@@ -92,14 +91,14 @@ entrada_aver = L * sqrt(mean(diag(corr))) / sqrt(length(rec_emis));
 salida = (entrada_aver / salida_aver) * salida;
 
 figure(6);
-plot(rec_xi, salida, 'b');
-hold on;
 plot(rec_xi, ampemi, 'r');
+hold on;
 grid on;
+plot(rec_xi, salida, 'b');
 title('Noisy reconstruction (N = 64, 1250 samples)');
 ylabel('Amplitude');
 xlabel('Distance (m)');
-legend('Reconstructed pattern', 'Emitted pattern');
+legend('Emitted pattern', 'Reconstructed pattern');
 
 
 nucleo = ceil(dx);
